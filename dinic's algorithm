@@ -25,7 +25,7 @@ vector <int> d, p;
 vector <edge> e;
 vector <vector <int>> g;
 
-bool bfs() {
+bool bfs(int val) {
     d.assign(n, INF);
     d[S] = 0;
     queue <int> q;
@@ -38,7 +38,7 @@ bool bfs() {
             int to = tmp.to;
             int c = tmp.c;
             int f = tmp.f;
-            if (f < c && d[to] == INF) {
+            if (f + val < c && d[to] == INF) {
                 d[to] = d[v] + 1;
                 q.push(to);
             }
@@ -67,9 +67,9 @@ int dfs(int v, int curf) {
     return 0;
 }
 
-int findMaxFlow() {
-    int maxFlow = 0;
-    while (bfs()) {
+long long findMaxFlow(int val) {
+    long long maxFlow = 0;
+    while (bfs(val)) {
         p.assign(n, 0);
         int flow = dfs(S, INF);
         while (flow) {
@@ -97,6 +97,13 @@ int main() {
         e[i] = tmp1;
         e[i + m] = tmp2;
     }
-    cout << findMaxFlow();
+    long long ans = 0;
+    long long p = (1LL << 30);
+    while (1) {
+        ans += findMaxFlow(p);
+        if (!p) break;
+        p /= 2;
+    }
+    cout << ans;
     return 0;
 }
