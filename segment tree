@@ -26,7 +26,6 @@ struct segment_tree {
                    t[v * 2].mod * (tm - tl + 1) + t[v * 2 + 1].mod * (tr - tm);
     }
     void build (int v, int tl, int tr, vector <int> &a) {
-        cout << tl << " " << tr << endl;
         if (tl == tr) {
             t[v].sum = a[tl];
             return;
