@@ -90,7 +90,6 @@ int main() {
     node *T = 0;
     while (q--) {
         string s;
-        getline(cin, s);
         cin >> s;
         if (s == "cutandpaste") {
             int l, r, pos;
