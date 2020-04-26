@@ -5,13 +5,12 @@
 
 using namespace std;
 
-struct vertex {
-    int cnt = 0;
-    char symb;
-    map <char, int> next;
-};
-
 struct prefix_tree {
+    struct vertex {
+        int cnt = 0;
+        char symb;
+        map <char, int> next;
+    };
     int root;
     int tail;
     vector <vertex> ver;
