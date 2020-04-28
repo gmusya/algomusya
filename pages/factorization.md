@@ -1,4 +1,4 @@
-## Первая страница
+## First Page
 ```c
 vector <pair <int, int>> factorization;
 while (n!= 1) {
