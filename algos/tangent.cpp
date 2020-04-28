@@ -50,7 +50,6 @@ int main() {
         int Left = 1, Right = n - 1;
         bool kek = false;
         vec Line{};
-        Point.write();
         if (Point.belong_to_angle(a[n - 1], a[1], a[0])) {
             Line = Point - a[0];
             while (Left + 1 < Right) {
