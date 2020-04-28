@@ -11,7 +11,7 @@
 ## Теория чисел
 * [Функция Эйлера](https://github.com/gmusya/hello-world/blob/master/algos/phi.cpp)
 * [Решето Эратосфена](https://github.com/gmusya/hello-world/blob/master/algos/sieve_of_eratosthenes.cpp)
-* [Факторизация числа](/pages#factorization)
+* [Факторизация числа](/algomusya/pages#factorization)
 * [Решение ax+by=c](https://github.com/gmusya/hello-world/blob/master/algos/ax%2Bby%3Dc.cpp)
 * [Решение a^x=b (mod m)](https://github.com/gmusya/hello-world/blob/master/algos/discrete_logging.cpp)
 
