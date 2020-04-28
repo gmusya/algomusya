@@ -84,13 +84,13 @@ struct node {
     static pair <node*, node*> cut(ll l, ll r, node* &root) {
         pair <node*, node*> q1;
         auto tmp1 = split(root, r);
-        if (tmp1.first) q1.first = new node(tmp1.first);
-        if (tmp1.second) q1.second = new node(tmp1.second);
+        if (tmp1.first) q1.first = (tmp1.first);
+        if (tmp1.second) q1.second = (tmp1.second);
         pair <node*, node*> q2;
         auto tmp2 = split(q1.first, l - 1);
-        if (tmp2.first) q2.first = new node(tmp2.first);
-        if (tmp2.second) q2.second = new node(tmp2.second);
-        root = new node(merge(q2.first, q1.second));
+        if (tmp2.first) q2.first = (tmp2.first);
+        if (tmp2.second) q2.second = (tmp2.second);
+        root = (merge(q2.first, q1.second));
         if (root->sz == 0) root = 0;
         return {root, q2.second};
     }
