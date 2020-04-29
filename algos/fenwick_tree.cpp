@@ -10,18 +10,18 @@ struct fenwick_tree {
         n = _n;
         t.resize(n);
     }
-    void update (int i, int val) {
-        while (i < n) {
-            t[i] += val;
-            i |= i + 1;
+    void upd (int pos, int val) {
+        while (pos < n) {
+            t[pos] += val;
+            pos |= pos + 1;
         }
     }
-    int get (int i) {
+    int get (int pos) {
         int result = 0;
-        while (i != -1) {
-            result += t[i];
-            i &= i + 1;
-            i--;
+        while (pos != -1) {
+            result += t[pos]; 
+            pos &= pos + 1;
+            pos--; 
         }
         return result;
     }
