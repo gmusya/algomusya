@@ -1,7 +1,7 @@
 Приветствую!
 
 ## Структуры данных
-* [Дерево Фенвика](/algomusya/pages/fenwick_tree.md)
+* [Дерево Фенвика](/algomusya/pages/fenwick_tree)
 * [Дерево отрезков](https://github.com/gmusya/hello-world/blob/master/algos/segment_tree.cpp)
 * [Разреженные таблицы](https://github.com/gmusya/hello-world/blob/master/algos/sparse_table.cpp)
 * [Декартово дерево](https://github.com/gmusya/hello-world/blob/master/algos/treap0.cpp)
