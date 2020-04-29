@@ -1,5 +1,5 @@
 ## First Page
-```c
+```c++
 vector <pair <int, int>> factorization;
 while (n!= 1) {
   int d = lp[n];
