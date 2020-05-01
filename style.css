@@ -1,0 +1,33 @@
+h2 {
+    color: black;
+    border-bottom: 2px solid black;
+    font-weight: 550;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+ul {
+    margin-top: 5px;
+}
+
+li {
+    color: black;
+    font-size: 18px;
+}
+
+span {
+    color: rgb(177, 177, 177);
+}
+
+a {
+    color: black;
+    text-decoration: none;
+}
+
+span:hover {
+    color: black;
+}
+
+a:hover {   
+    text-decoration: underline;
+}
