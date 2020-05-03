@@ -25,7 +25,7 @@
             <p>
                 Построим дерево на <b>n</b> вершинах по следующему правилу: ребро <b>(u, v)</b> существует тогда и только тогда,
                 когда <code>v = u | (u + 1).</code><br>
-                <a href="img/fenwick_tree.png"><img src="img/fenwick_tree.png" width="800"></a><br>
+                <div style="text-align: center;"><a href="img/fenwick_tree.png"><img src="img/fenwick_tree.png" width="800"></a></div><br>
                 Посмотрим на вершину <b>u</b>. Пусть вершина <b>v</b> - потомок <b>u</b>, имеющий наименьший номер. Будем хранить 
                 <b>t[u]</b> как сумму на отрезке <code>[v; u]</code>. Заметим, что <code>v = u & (u + 1)</code> (где <b>&</b> означает "побитовое И"),
                 это пригодится в будущем.
