@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ru">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <title>Document</title>
+        <link rel="stylesheet" href="stylesheet/style.css">
+    </head>
+    <body>
+        <header style="background-color: rgb(177, 177, 177);">
+            <table><tr>
+                <td><a href="index.html"><img src="img/notebook.jpg" width="75" style="align-items: right;"></a></td>
+                <td><a href="index.html" style="text-decoration: none;"><h1 style="text-align: left; color:rgb(255, 255, 255); font-weight: 500; margin-left: 12.5px;">Algomusya</h1></td></a>
+            </tr></table>
+        </header>
+        <main>
+            <h2>Дерево Фенвика</h2>
+            <p>
+                Дан массив размера <b>n</b>, необходимо выполнять две операции:
+                <ul>
+                    <li><code>upd(pos, val)</code> - прибавить к элементу на позиции <b>pos</b> значение <b>val</b>;</li>
+                    <li><code>get(pos)</code> - вывести сумму на отрезке <code>[0; pos]</code>.</li>
+                </ul>
+            </p>
+            <p>
+                Построим дерево на <b>n</b> вершинах по следующему правилу: ребро <b>(u, v)</b> существует тогда и только тогда,
+                когда <code>v = u | (u + 1).</code><br>
+                <a href="img/fenwick_tree.png"><img src="img/fenwick_tree.png" width="800"></a><br>
+                Посмотрим на вершину <b>u</b>. Пусть вершина <b>v</b> - потомок <b>u</b>, имеющий наименьший номер. Будем хранить 
+                <b>t[u]</b> как сумму на отрезке <code>[v; u]</code>. Заметим, что <code>v = u & (u + 1)</code> (где <b>&</b> означает "побитовое И"),
+                это пригодится в будущем.
+            </p>
+            <h2>Запрос обновления</h2>
+            <p>
+                Чтобы сделать <code>upd(pos, val)</code>, необходимо обновить значение <b>t[u]</b> для всех <b>u</b>, являющихся
+                предком <b>pos</b>. Чтобы просматривать всех предков, достаточно подниматься по рёбрам дерева с помощью операции
+                <code>pos = pos | (pos + 1)</code>. Например, при обновлении вершины <b>1</b> мы посетим вершины <b>1, 3, 7;</b>
+                при обновлении вершины <b>4</b> - <b>4, 5, 7</b>.
+            </p>
+                <div class="cpp"><pre>
+<span style="color: #0000ff">void</span> upd (<span style="color: #0000ff">int</span> pos, <span style="color: #0000ff">int</span> val) {<br>
+    <span style="color: #0000ff">while</span> (pos &lt; n) {<br>
+        t<span style="color: #2080a0">[</span>pos<span style="color: #2080a0">]</span> += val; <span style="color: #028635">// обновили сумму поддерева t[pos]</span><br>
+        pos |= pos + 1; <span style="color: #028635">// перешли в предка pos</span><br>
+    }<br>
+}               
+                </pre></div>
+            <h2>Запрос суммы</h2>
+            <p>
+                Чтобы сделать <code>get(pos)</code>, необходимо найти ответ для <code>[pos & (pos + 1); pos]</code>, затем решить задачу для 
+                отрезка <code>[0; pos & (pos + 1) - 1]</code> и полученные ответы сложить. Например, при нахождении суммы на отрезке
+                <code>[0; 5]</code> мы должны взять в качестве ответа сумму <b>t[5] + t[3]</b>, а для <code>[0; 7]</code> - <b>t[7]</b>.
+                <div class="cpp"><pre>
+<span style="color: #0000ff">int</span> get (<span style="color: #0000ff">int</span> pos) {<br>
+    <span style="color: #0000ff">int</span> result = 0;<br>
+    <span style="color: #0000ff">while</span> (pos != -1) {<br>
+        result += t<span style="color: #2080a0">[</span>pos<span style="color: #2080a0">]</span>; <span style="color: #028635">// прибавили к ответу поддерево t[pos]</span><br>
+        pos &= pos + 1; <span style="color: #028635">// перешли в самого левого потомка</span><br>
+        pos--; <span style="color: #028635">// перешли в вершину левее</span><br>
+    }<br>
+    <span style="color: #0000ff">return</span> result;<br>
+}                             
+                </pre></div>
+            </p>
+            <h2>Время работы</h2>
+            <p>
+                Посмотрим на обе операции, выполняющиеся при запросах:
+                <ul>
+                    <li><code>u = u | (u + 1)</code> эквивалентна замене первого нулевого бита числа <b>u</b> на единицу. Например, 1100101
+                    превратится в 1100111, а если применить операцию ещё раз - в 1101111. </li>
+                    <li><code>v = v & (v + 1) - 1</code> эквивалентна следующей последовательности действий:
+                    <ul style="margin-left: auto; margin-right: 0;">
+                        <li>взять число <b>u</b>, пусть у него <b>k</b> первых битов равны едиинице, а следующие <b>m</b> битов равны нулю;
+                        <li>если <b>m = 0</b>, то заменить <b>u</b> на <b>-1</b>. Иначе заменить <b>k+m</b> первых битов в числе <b>u</b> 
+                            на единицы, а следующий бит после них
+                            - на ноль.</li>
+                    </ul style="margin-left: 20%"></li>
+                </ul>
+                Получаем, что одна операция безвозвратно заменяет хотя бы один бит на единицу, а другая - хотя бы один бит на ноль.
+                Получаем <b>O (log n)</b> на выполнение каждого запроса.
+            </p>
+        </main>
+    </body>
+</html>
