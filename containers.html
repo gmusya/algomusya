@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="ru">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <title>Контейнеры</title>
+        <link rel="stylesheet" href="stylesheet/style.css">
+    </head>
+    <body>
+        <header style="background-color: rgb(177, 177, 177);">
+            <table><tr>
+                <td><a href="index.html"><img src="img/notebook.jpg" width="75" style="align-items: right;"></a></td>
+                <td><a href="index.html" style="text-decoration: none;"><h1 style="text-align: left; color:rgb(255, 255, 255); font-weight: 500; margin-left: 12.5px;">Algomusya</h1></td></a>
+            </tr></table>
+        </header>
+        <main>
+            <h2>Стек (stack)</h2>
+            <p>
+                Тип данных, представляющий собой список элементов, организованный по принципу <b>LIFO</b> (last in - first out).
+                Поддерживает три операции (не считая классических <code>empty()</code> и <code>size()</code>):
+                <ul>
+                    <li><code>push(x)</code> - добавить в конец списка элемент со значением <b>x</b>;</li>
+                    <li><code>back()</code> - узнать значение элемента в конце списка;</li>
+                    <li><code>pop()</code> - удалить элемент из конца списка;</li>
+                </ul>
+            </p>
+            <div style="text-align: center"><img src="img/stack.PNG" height="150"></div>
+            В С++ реализован в библиотеке <code>&lt;stack&gt;</code>, однако можно написать самому:
+            <div class="cpp"><pre>
+<span style="color: #0000ff">struct</span> stack { 
+    <span style="color: #2080a0">vector</span> &lt;<span style="color: #2080a0">T</span>&gt; t; 
+    <span style="color: #0000ff">void</span> push(<span style="color: #2080a0">T</span> x) { 
+        t.push_back(x); 
+    } 
+    <span style="color: #2080a0">T</span> get() { 
+        <span style="color: #0000ff">return</span> t<span style="color: #2080a0">[</span>t.size() - 1<span style="color: #2080a0">]</span>; 
+    } 
+    <span style="color: #0000ff">void</span> pop() { 
+        a.pop_back(); 
+    } 
+}         
+            </pre></div>
+            <h2>Очередь (queue)</h2>
+            <p>
+                Тип данных, представляющий собой список элементов, организованный по принципу <b>FIFO</b> (first in - first out).
+                Поддерживает четыре операции:
+                <ul>
+                    <li><code>push(x)</code> - добавить в конец списка элемент со значеним <b>x</b>;</li>
+                    <li><code>front()</code> - узнать значение элемента в начале списка;</li>
+                    <li><code>back()</code> - узнать значение элемента в конце списка;</li>
+                    <li><code>pop()</code> - удалить элемент из начала списка;</li>
+                </ul>
+            </p>
+            <div style="text-align: center"><img src="img/queue.PNG" height="150"></div>
+            В С++ реализована в библиотеке <code>&lt;queue&gt;</code>, но вновь можно написать самому:
+            <div class="cpp"><pre>
+<span style="color: #0000ff">struct</span> queue { 
+    <span style="color: #0000ff">int</span> head = 0; 
+    <span style="color: #2080a0">vector</span> &lt;<span style="color: #2080a0">T</span>&gt; t; 
+    <span style="color: #0000ff">void</span> push(<span style="color: #2080a0">T</span> x) { 
+        t.push_back(x); 
+    } 
+    <span style="color: #2080a0">T</span> front() { 
+        <span style="color: #0000ff">return</span> t<span style="color: #2080a0">[</span>head<span style="color: #2080a0">]</span>; 
+    } 
+    <span style="color: #2080a0">T</span> back() { 
+        <span style="color: #0000ff">return</span> t<span style="color: #2080a0">[</span>t.size() - 1<span style="color: #2080a0">]</span>; 
+    } 
+    <span style="color: #0000ff">void</span> pop() { 
+        head++; 
+    } 
+}
+            </pre></div>
+            <h2>Двухсторонняя очередь (deque)</h2>
+            <p>
+                Проще всего провести аналогиую с колодой (deck) - можно как взять, так и положить карту как снизу колоды, так и сверху.
+                Поддерживает шесть операций:
+                <ul>
+                    <li><code>push_back(x)</code> - добавить в конец списка элемент со значением <b>x</b>;</li>
+                    <li><code>push_front(x)</code> - добавить в начало списка элемент со значеним <b>x</b>;</li>
+                    <li><code>back()</code> - узнать значение элемента в конце списка;</li>
+                    <li><code>front()</code> - узнать значение элемента в начале списка;</li>
+                    <li><code>pop_back()</code> - удалить элемент из конца списка;</li>
+                    <li><code>pop_front()</code> - удалить элемент из начала списка;</li>
+                </ul>
+            </p>
+            <div style="text-align: center"><img src="img/deque.PNG" height="150"></div>
+            В С++ реализована в библиотеке <code>&lt;deque&gt;</code>, но и здесь несложно написать самому (правда, тогда заранее придётся выделить память на фиксированное число элементов):
+            <div class="cpp"><pre>
+<span style="color: #0000ff">struct</span> deque { 
+    <span style="color: #0000ff">int</span> head;
+    <span style="color: #2080a0">vector</span> &lt;<span style="color: #2080a0">T</span>&gt; t;
+    deque (<span style="color: #0000ff">int</span> n) {
+        head = n;
+        t.resize(n);   
+    }
+    <span style="color: #0000ff">void</span> push_back(<span style="color: #2080a0">T</span> x) { 
+        t.push_back(x); 
+    }
+    <span style="color: #0000ff">void</span> push_front(<span style="color: #2080a0">T</span> x) {
+        t<span style="color: #2080a0">[</span>--head<span style="color: #2080a0">]</span> = x;
+    }
+    <span style="color: #2080a0">T</span> back() { 
+        <span style="color: #0000ff">return</span> t<span style="color: #2080a0">[</span>t.size() - 1<span style="color: #2080a0">]</span>; 
+    } 
+    <span style="color: #2080a0">T</span> front() { 
+        <span style="color: #0000ff">return</span> t<span style="color: #2080a0">[</span>head<span style="color: #2080a0">]</span>; 
+    } 
+    <span style="color: #0000ff">void</span> pop_back() {
+        t.pop_back();
+    }
+    <span style="color: #0000ff">void</span> pop_front() {
+        head++;
+    }
+}
+            </pre></div>
+        </main>
+    </body>
+</html>
