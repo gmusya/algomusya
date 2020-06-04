@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <meta http-equiv="content-type" content="text/html; charset=utf-8">
-        <title>Document</title>
+        <title>Дерево Фенвика</title>
         <link rel="stylesheet" href="stylesheet/style.css">
     </head>
     <body>
@@ -38,11 +38,11 @@
                 при обновлении вершины <b>4</b> - <b>4, 5, 7</b>.
             </p>
                 <div class="cpp"><pre>
-<span style="color: #0000ff">void</span> upd (<span style="color: #0000ff">int</span> pos, <span style="color: #0000ff">int</span> val) {<br>
-    <span style="color: #0000ff">while</span> (pos &lt; n) {<br>
-        t<span style="color: #2080a0">[</span>pos<span style="color: #2080a0">]</span> += val; <span style="color: #028635">// обновили сумму поддерева t[pos]</span><br>
-        pos |= pos + 1; <span style="color: #028635">// перешли в предка pos</span><br>
-    }<br>
+<span style="color: #0000ff">void</span> upd (<span style="color: #0000ff">int</span> pos, <span style="color: #0000ff">int</span> val) {
+    <span style="color: #0000ff">while</span> (pos &lt; n) {
+        t<span style="color: #2080a0">[</span>pos<span style="color: #2080a0">]</span> += val; <span style="color: #028635">// обновили сумму поддерева t[pos]</span>
+        pos |= pos + 1; <span style="color: #028635">// перешли в предка pos</span>
+    }
 }               
                 </pre></div>
             <h2>Запрос суммы</h2>
@@ -51,14 +51,14 @@
                 отрезка <code>[0; pos & (pos + 1) - 1]</code> и полученные ответы сложить. Например, при нахождении суммы на отрезке
                 <code>[0; 5]</code> мы должны взять в качестве ответа сумму <b>t[5] + t[3]</b>, а для <code>[0; 7]</code> - <b>t[7]</b>.
                 <div class="cpp"><pre>
-<span style="color: #0000ff">int</span> get (<span style="color: #0000ff">int</span> pos) {<br>
-    <span style="color: #0000ff">int</span> result = 0;<br>
-    <span style="color: #0000ff">while</span> (pos != -1) {<br>
-        result += t<span style="color: #2080a0">[</span>pos<span style="color: #2080a0">]</span>; <span style="color: #028635">// прибавили к ответу поддерево t[pos]</span><br>
-        pos &= pos + 1; <span style="color: #028635">// перешли в самого левого потомка</span><br>
-        pos--; <span style="color: #028635">// перешли в вершину левее</span><br>
-    }<br>
-    <span style="color: #0000ff">return</span> result;<br>
+<span style="color: #0000ff">int</span> get (<span style="color: #0000ff">int</span> pos) {
+    <span style="color: #0000ff">int</span> result = 0;
+    <span style="color: #0000ff">while</span> (pos != -1) {
+        result += t<span style="color: #2080a0">[</span>pos<span style="color: #2080a0">]</span>; <span style="color: #028635">// прибавили к ответу поддерево t[pos]</span>
+        pos &= pos + 1; <span style="color: #028635">// перешли в самого левого потомка</span>
+        pos--; <span style="color: #028635">// перешли в вершину левее</span>
+    }
+    <span style="color: #0000ff">return</span> result;
 }                             
                 </pre></div>
             </p>
