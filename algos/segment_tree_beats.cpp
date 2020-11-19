@@ -93,14 +93,14 @@ int main() {
   while (q--) {
     char c;
     cin >> c;
-    if (c == '?') {
+    if (c == '?') { // сумма на отрезке
       int l, r;
       cin >> l >> r;
       l--, r--;
       ll val = se.query(l, r);
       cout << val << '\n';
     }
-    if (c == '^') {
+    if (c == '^') { // a[i] = max(a[i], val) на отрезке
       int l, r, val;
       cin >> l >> r >> val;
       l--, r--;
