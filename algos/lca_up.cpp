@@ -23,25 +23,16 @@ void dfs(int v) {
 int lca(int u, int v) {
   if (depth[u] > depth[v])
     swap(u, v);
-  // поднимаемся от v до уровня u
   int len = depth[v] - depth[u];
-  for (int i = 0; i <= lg[n]; i++)
+  for (int i = 0; i <= lg[len]; i++)
     if (len & (1 << i))
       v = up[i][v];
   if (u == v)
     return u;
-  pair <int, int> ans = {depth[root], root};
-  for (int i = lg[n]; i >= 0; i--) {
-    int _u = up[u][i];
-    int _v = up[v][i];
-    if (_u == _v) { // ответ не может находиться выше _u
-      ans = max(ans, {depth[_u], _u});
-    } else { // ответ не может находиться ниже _u
-      u = _u;
-      v = _v;
-    }
-  }
-  return ans.second;
+  for (int i = lg[depth[u] + 1]; i >= 0; i--)
+    if (up[i][v] != up[i][u])
+      v = up[i][v], u = up[i][u];
+  return up[0][v];
 }
 
 int main() {
