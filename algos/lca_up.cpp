@@ -45,11 +45,9 @@ int main() {
     g[u].push_back(v);
     g[v].push_back(u);
   }
-  // считаем значения для дерева
   used.resize(n), depth.resize(n), parent.resize(n);
   parent[root] = root;
   dfs(root);
-  // преподсчитываем предков на расстоянии 2^i
   lg.resize(n + 1);
   for (int i = 2; i <= n; i++)
     lg[i] = lg[i / 2] + 1;
