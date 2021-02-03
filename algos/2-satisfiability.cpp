@@ -27,7 +27,7 @@ int main() {
     used.assign(2 * n, false);
     while (m--) {
       int i1, e1, i2, e2;
-      cin >> i1 >> e1 >> i2 >> e2; // [i1, e1, i2, e2] = [0, 1, 3, 0] <=> (x[1] | !x[3])
+      cin >> i1 >> e1 >> i2 >> e2; // [i1, e1, i2, e2] = [0, 1, 3, 0] <=> (x[0] | !x[3])
       int u1 = i1, u2 = i1 + n;
       int v1 = i2, v2 = i2 + n;
       if (e1 == 0)
