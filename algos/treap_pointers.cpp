@@ -109,6 +109,8 @@ struct node {
     p = merge(tmp1.first, tmp2.second);
   }
   static void erase_one(int x, node* &p) {
+    if (!p)
+      return;
     if (x == p->x)
       p = merge(p->l, p->r);
     else
