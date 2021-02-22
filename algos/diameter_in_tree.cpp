@@ -1,63 +1,46 @@
 #include <iostream>
 #include <vector>
 #include <queue>
+#include <algorithm>
 
 using namespace std;
 
-const int INF = 1e9;
+typedef vector <int> vi;
+typedef vector <vi> vvi;
 
-struct graph {
-    int n;
-    vector <int> distance;
-    vector <vector <int>> g;
+vi bfs(int s, vvi &g) {
+  int n = g.size();
+  vi d(n, n);
+  queue <int> q;
+  q.push(s);
+  d[s] = 0;
+  while (!q.empty()) {
+    int v = q.front();
+    q.pop();
+    for (int u : g[v])
+      if (d[v] + 1 < d[u]) {
+        d[u] = d[v] + 1;
+        q.push(u);
+      }
+  }
+  return d;
+}
 
-    explicit graph(int _n) {
-        n = _n;
-        g.resize(n);
-    }
-
-    void read(int m) {
-        while (m--) {
-            int u, v;
-            cin >> u >> v;
-            u--, v--;
-            g[u].push_back(v), g[v].push_back(u);
-        }
-    }
-
-    void bfs(int s) {
-        queue <int> q;
-        distance.assign(n, INF);
-        distance[s] = 0;
-        q.push(s);
-        while (!q.empty()) {
-            int v = q.front();
-            q.pop();
-            for (int u : g[v])
-                if (distance[v] + 1 < distance[u]) {
-                    distance[u] = distance[v] + 1;
-                    q.push(u);
-                }
-        }
-    }
-
-};
-
-int main () {
-    int n;
-    cin >> n;
-    graph g(n);
-    g.read(n - 1);
-    g.bfs(0);
-    int s = 0;
-    for (int i = 1; i < n; i++)
-        if (g.distance[s] < g.distance[i])
-            s = i;
-    g.bfs(s);
-    int f = 0;
-    for (int i = 1; i < n; i++)
-        if (g.distance[f] < g.distance[i])
-            f = i;
-    cout << s + 1 << ' ' << f + 1 << ' ' << g.distance[f];
-    return 0;
+int main() {
+  int n;
+  cin >> n;
+  vvi g(n);
+  for (int i = 1; i < n; i++) {
+    int u, v;
+    cin >> u >> v;
+    u--, v--;
+    g[u].push_back(v);
+    g[v].push_back(u);
+  }
+  vi d1 = bfs(0, g);
+  int s = max_element(d1.begin(), d1.end()) - d1.begin();
+  vi d2 = bfs(s, g);
+  int f = max_element(d2.begin(), d2.end()) - d2.begin();
+  cout << "(" << s + 1 << ',' << f + 1 << ") " << d2[f] << endl;
+  return 0;
 }

@@ -2,62 +2,45 @@
 #include <vector>
 #include <set>
 
-typedef long long ll;
-
 using namespace std;
+
+typedef long long ll;
 
 const ll INF = 1e18;
 
-struct graph {
-    int n;
-    vector <ll> d;
-    vector <vector <pair <int, ll>>> g;
+vector <ll> dijkstra(int s, vector <vector <pair <int, ll>>> &g) {
+  int n = g.size();
+  vector <ll> d(n, INF);
+  d[s] = 0;
+  set <pair <ll, int>> q;
+  for (int v = 0; v < n; v++)
+    q.insert({d[v], v});
+  while (!q.empty()) {
+    int v = q.begin()->second;
+    q.erase(q.begin());
+    for (auto [u, w] : g[v])
+      if (d[v] + w < d[u]) {
+        q.erase({d[u], u});
+        d[u] = d[v] + w;
+        q.insert({d[u], u});
+      }
+  }
+  return d;
+}
 
-    explicit graph(int _n) {
-        n = _n;
-        d.resize(n, INF);
-        g.resize(n);
-    }
-
-    void read(int m) {
-        while (m--) {
-            int u, v, w;
-            cin >> u >> v >> w;
-            u--, v--;
-            g[u].push_back({v, w}), g[v].push_back({u, w});
-        }
-    }
-
-    void dijkstra(int s) {
-        set <pair <ll, int>> q;
-        d[s] = 0;
-        q.insert({0, s});
-        while (!q.empty()) {
-            ll v = q.begin()->second;
-            q.erase(q.begin());
-            for (auto &tmp : g[v]) {
-                int u = tmp.first;
-                ll w = tmp.second;
-                if (d[v] + w < d[u]) {
-                    if (d[u] != INF) q.erase({d[u], u});
-                    d[u] = d[v] + w;
-                    q.insert({d[u], u});
-                }
-            }
-        }
-    }
-
-};
-
-int main () {
-    int n, m;
-    cin >> n >> m;
-    graph g(n);
-    g.read(m);
-    int s;
-    cin >> s;
-    g.dijkstra(s - 1);
-    for (int i = 0; i < n; i++)
-        cout << g.d[i] << ' ';
-    return 0;
+int main() {
+  int n, m;
+  cin >> n >> m;
+  vector <vector <pair <int, ll>>> g(n);
+  for (int i = 0; i < m; i++) {
+    int u, v, w;
+    cin >> u >> v >> w;
+    u--, v--;
+    g[u].push_back({v, w});
+    g[v].push_back({u, w});
+  }
+  vector <ll> d = dijkstra(0, g);
+  for (ll x : d)
+    cout << x << ' ';
+  return 0;
 }

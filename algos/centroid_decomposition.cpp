@@ -92,9 +92,9 @@ int main() {
   dis.resize(n);
   build_centroid_tree(0, -1, n / 2);
   for (int v = 0; v < n; v++) {
-    cout << "v = " << v << '\n';
-    for (int it = 0, c = v; it != (int)dis[v].size(); it++, c = cp[c])
-      cout << c << ' ' << dis[v][it] << '\n';
+    cout << "v = " << v + 1 << '\n';
+    for (int it = (int)dis[v].size() - 1, c = v; it >= 0; it--, c = cp[c])
+      cout << c + 1 << ' ' << dis[v][it] << '\n';
   }
   return 0;
 }
