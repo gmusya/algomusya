@@ -114,6 +114,8 @@ struct treap {
     root = merge(tmp1.first, tmp2.second);
   }
   void erase_one(int key, int &p) {
+    if (!p)
+      return;
     if (key == x[p])
       p = merge(left_kid[p], right_kid[p]);
     else
