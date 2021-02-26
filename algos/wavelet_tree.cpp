@@ -43,6 +43,23 @@ struct wavelet_tree {
     else
       return kth(v * 2 + 1, tm + 1, tr, l - lb, r - rb, k - val);
   }
+  int lower_than(int v, int tl, int tr, int l, int r, int k) {
+    if (l > r || k <= tl)
+      return 0;
+    if (k > tr)
+      return r - l + 1;
+    if (tl == tr)
+      return r - l + 1;
+    int lb = t[v][l - 1];
+    int rb = t[v][r];
+    int tm = (tl + tr) / 2;
+    int x = lower_than(v * 2, tl, tm, lb + 1, rb, k);
+    int y = lower_than(v * 2 + 1, tm + 1, tr, l - lb, r - rb, k);
+    return x + y;
+  }
+  int lower_than(int l, int r, int k) {
+    return lower_than(1, 0, n - 1, l, r, k);
+  }
   int kth(int l, int r, int k) {
     return kth(1, 0, n - 1, l, r, k);
   }
@@ -77,9 +94,18 @@ int main() {
   int q;
   cin >> q;
   while (q--) {
-    int l, r, k;
-    cin >> l >> r >> k;
-    cout << pos[wt.kth(l, r, k)] - l + 2 << '\n';
+    string s;
+    cin >> s;
+    if (s == "kth") {
+      int l, r, k;
+      cin >> l >> r >> k;
+      cout << pos[wt.kth(l, r, k)] - l + 2 << '\n';
+    }
+    if (s == "lower_than") {
+      int l, r, k;
+      cin >> l >> r >> k;
+      cout << wt.lower_than(l, r, k) << endl;
+    }
   }
   return 0;
 }
