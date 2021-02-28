@@ -1,3 +1,5 @@
+#pragma GCC optimize("O3")
+
 #include <iostream>
 #include <vector>
 #include <string>
@@ -141,8 +143,7 @@ struct node {
       }
       p->right = v;
       v->parent = p;
-      v->pathparent = p->pathparent;
-      p->pathparent = nullptr;
+      v->pathparent = nullptr;
       upd(p);
       splay(v);
     }
@@ -153,7 +154,56 @@ struct node {
       v = v->left;
       push(v);
     }
+    splay(v);
     return v->x;
+  }
+  static void make_root(node* v) {
+    expose(v);
+    if (v->right) {
+      v->right->pathparent = v;
+      v->right->parent = nullptr;
+      v->right = nullptr;
+      upd(v);
+    }
+    v->rev ^= 1;
+  }
+  static void link(node* u, node* v) {
+    make_root(u);
+    u->pathparent = v;
+  }
+  static void cut(node* u, node* v) {
+    make_root(u);
+    expose(v);
+    v->left->parent = nullptr;
+    v->left = nullptr;
+  }
+  static int get(node* u, node* v) {
+    make_root(u);
+    expose(v);
+    int ans = get(v->left);
+    if (get_min(v) == u->x)
+      return ans;
+    return -1;
+  }
+};
+
+struct link_cut {
+  int n;
+  vector <node*> nodes;
+  link_cut(int _n) {
+    n = _n;
+    nodes.resize(n);
+    for (int i = 0; i < n; i++)
+      nodes[i] = new node(i + 1);
+  }
+  void link(int u, int v) {
+    node::link(nodes[u], nodes[v]);
+  }
+  void cut(int u, int v) {
+    node::cut(nodes[u], nodes[v]);
+  }
+  int get(int u, int v) {
+    return node::get(nodes[u], nodes[v]);
   }
 };
 
@@ -162,9 +212,7 @@ int main() {
   cin.tie(0);
   int n, q;
   cin >> n >> q;
-  vector <node*> nodes(n);
-  for (int i = 0; i < n; i++)
-    nodes[i] = new node(i + 1);
+  link_cut lc(n);
   while (q--) {
     string s;
     cin >> s;
@@ -172,55 +220,19 @@ int main() {
       int u, v;
       cin >> u >> v;
       u--, v--;
-      node::expose(nodes[u]);
-      int r1 = node::get_min(nodes[u]);
-      int dist1 = node::get(nodes[u]->left);
-      node::expose(nodes[v]);
-      int r2 = node::get_min(nodes[v]);
-      int dist2 = node::get(nodes[v]->left);
-      if (r1 != r2) {
-        cout << -1 << '\n';
-      } else {
-        node::splay(nodes[u]);
-        if (nodes[u]->pathparent) {
-          int dist3 = dist1 - node::get(nodes[u]->left) - 1;
-          cout << dist1 + dist2 - 2 * dist3 << '\n';
-        } else {
-          cout << abs(dist1 - dist2) << '\n';
-        }
-      }
+      cout << lc.get(u, v) << '\n';
     }
     if (s == "link") {
       int u, v;
       cin >> u >> v;
       u--, v--;
-      node::expose(nodes[v]);
-      if (nodes[v]->right) {
-        nodes[v]->right->parent = nullptr;
-        nodes[v]->right->pathparent = nodes[v];
-        nodes[v]->right = nullptr;
-      }
-      node::upd(nodes[v]);
-      nodes[v]->rev ^= 1;
-      node::push(nodes[v]);
-      node::expose(nodes[u]);
-      nodes[v]->pathparent = nodes[u];
+      lc.link(u, v);
     }
     if (s == "cut") {
       int u, v;
       cin >> u >> v;
       u--, v--;
-      node::expose(nodes[u]);
-      int x = node::get(nodes[u]->left);
-      node::expose(nodes[v]);
-      int y = node::get(nodes[v]->left);
-      if (x > y)
-        swap(u, v);
-      node::expose(nodes[v]);
-      node::push(nodes[v]);
-      nodes[v]->left->parent = nullptr;
-      nodes[v]->left = nullptr;
-      node::upd(nodes[v]);
+      lc.cut(u, v);
     }
   }
   return 0;

@@ -129,8 +129,7 @@ struct link_cut {
         swap(parent[right_kid[p]], pathparent[right_kid[p]]);
       right_kid[p] = v;
       parent[v] = p;
-      pathparent[v] = pathparent[p];
-      pathparent[p] = 0;
+      pathparent[v] = 0;
       upd(p);
       splay(v);
     }
@@ -141,7 +140,36 @@ struct link_cut {
       v = left_kid[v];
       push(v);
     }
+    splay(v);
     return x[v];
+  }
+  static void make_root(int v) {
+    expose(v);
+    if (right_kid[v]) {
+      pathparent[right_kid[v]] = v;
+      parent[right_kid[v]] = 0;
+      right_kid[v] = 0;
+      upd(v);
+    }
+    rev[v] ^= 1;
+  }
+  static void link(int u, int v) {
+    make_root(u);
+    pathparent[u] = v;
+  }
+  static void cut(int u, int v) {
+    make_root(u);
+    expose(v);
+    parent[left_kid[v]] = 0;
+    left_kid[v] = 0;
+  }
+  static int get(int u, int v) {
+    make_root(u);
+    expose(v);
+    int ans = get(left_kid[v]);
+    if (get_min(v) == x[u])
+      return ans;
+    return -1;
   }
 };
 
@@ -164,52 +192,17 @@ int main() {
     if (s == "get") {
       int u, v;
       cin >> u >> v;
-      lc.expose(u);
-      int r1 = lc.get_min(u);
-      int dist1 = lc.get(left_kid[u]);
-      lc.expose(v);
-      int r2 = lc.get_min(v);
-      int dist2 = lc.get(left_kid[v]);
-      if (r1 != r2) {
-        cout << -1 << '\n';
-      } else {
-        lc.splay(u);
-        if (pathparent[u]) {
-          int dist3 = dist1 - lc.get(left_kid[u]) - 1;
-          cout << dist1 + dist2 - 2 * dist3 << '\n';
-        } else {
-          cout << abs(dist1 - dist2) << '\n';
-        }
-      }
+      cout << lc.get(u, v) << '\n';
     }
     if (s == "link") {
       int u, v;
       cin >> u >> v;
-      lc.expose(v);
-      if (right_kid[v]) {
-        swap(parent[right_kid[v]], pathparent[right_kid[v]]);
-        right_kid[v] = 0;
-      }
-      lc.upd(v);
-      rev[v] ^= 1;
-      lc.push(v);
-      lc.expose(u);
-      pathparent[v] = u;
+      lc.link(u, v);
     }
     if (s == "cut") {
       int u, v;
       cin >> u >> v;
-      lc.expose(u);
-      int x = lc.get(left_kid[u]);
-      lc.expose(v);
-      int y = lc.get(left_kid[v]);
-      if (x > y)
-        swap(u, v);
-      lc.expose(v);
-      lc.push(v);
-      parent[left_kid[v]] = 0;
-      left_kid[v] = 0;
-      lc.upd(v);
+      lc.cut(u, v);
     }
   }
   return 0;
