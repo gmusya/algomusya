@@ -40,6 +40,7 @@ int main() {
   vi tin(n), up(n);
   used.assign(n, false);
   for (int v = 0; v < n; v++)
-    dfs(v, tin, up, g);
+    if (!used[v])
+      dfs(v, tin, up, g);
   return 0;
 }
