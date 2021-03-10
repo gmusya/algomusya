@@ -3,15 +3,16 @@
 
 using namespace std;
 
-int n, m;
-vector <bool> used;
+int timer = 0;
+int n, m, k;
+vector <int> used;
 vector <int> mt;
 vector <vector <int>> g;
 
 bool dfs(int v) {
-  if (used[v])
+  if (used[v] == timer)
     return false;
-  used[v] = true;
+  used[v] = timer;
   for (auto to : g[v]) {
     if (mt[to] == -1 || dfs(mt[to])) {
       mt[to] = v;
@@ -22,21 +23,19 @@ bool dfs(int v) {
 }
 
 int main() {
-  cin >> n >> m;
+  cin >> n >> m >> k;
   g.resize(n);
-  for (int i = 0; i < n; i++) {
-    int k;
-    cin >> k;
-    while (k != 0) {
-      g[i].push_back(k - 1);
-      cin >> k;
-    }
+  for (int i = 0; i < k; i++) {
+    int u, v;
+    cin >> u >> v;
+    u--, v--;
+    g[u].push_back(v);
   }
+  used.resize(n, -1);
   mt.resize(m, -1);
-  for (int i = 0; i < n; i++) {
-    used.assign(n, false);
-    dfs(i);
-  }
+  for (int i = 0; i < n; i++)
+    if (dfs(i))
+      timer++;
   vector <pair <int, int>> answer;
   for (int i = 0; i < m; i++)
     if (mt[i] != -1)
